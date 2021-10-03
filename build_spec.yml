@@ -1,0 +1,67 @@
+version: 0.1
+component: build
+timeoutInSeconds: 10000
+runAs: root
+shell: bash
+env:
+  exportedVariables:
+    - BUILDRUN_HASH
+  vaultVariables:
+    OCIRCRED: "ocid1.vaultsecret.oc1.uk-london-1.amaaaaaaxc7u3kiag34fvyatxaryr4q72wqmgb5nm7znk5fe3ccq747ri5ya"
+
+steps:
+  - type: Command
+    name: "Export BUILDRUN_HASH as variable"
+    timeoutInSeconds: 40
+    command: |
+      export BUILDRUN_HASH=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-7`
+      echo "BUILDRUN_HASH: " $BUILDRUN_HASH
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to obtain BUILDRUN_HASH"
+        timeoutInSeconds: 400
+        runAs: root
+
+# Build Docker image for php
+  - type: Command
+    name: "Build Docker image for php"
+    command: |
+      docker build -t ${P_OCIR_REGION_KEY}.ocir.io/${P_TENANCY_NAMESPACE}/${P_OCIR_REPO_NAME_NGINX}:${BUILDRUN_HASH} php-adb/.
+      echo "Run PHP"
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to build Docker container for php"
+        timeoutInSeconds: 400
+        runAs: root
+
+# Build Docker image for nginx
+  - type: Command
+    name: "Build Docker image for nginx"
+    command: |
+      docker build -t ${P_OCIR_REGION_KEY}.ocir.io/${P_TENANCY_NAMESPACE}/${P_OCIR_REPO_NAME_NGINX}:${BUILDRUN_HASH} nginx/.
+      echo "Run nginx-php"
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to build Docker container for nginx"
+        timeoutInSeconds: 400
+        runAs: root
+
+# Push nginx and php docker image to OCIR
+  - type: Command
+    name: "Push Nginx and PHP Docker Image to OCIR"
+    command: |
+      echo "Login to OCIR"
+      docker login lhr.ocir.io -u ${P_TENANCY_NAMESPACE}/${P_OCI_USERNAME} -p ${OCIRCRED}
+      echo "Push Nginx image to OCIR"
+      docker push ${P_OCIR_REGION_KEY}.ocir.io/${P_TENANCY_NAMESPACE}/${P_OCIR_REPO_NAME_NGINX}:${BUILDRUN_HASH}
+      echo "Push PHP image to OCIR"
+      docker push ${P_OCIR_REGION_KEY}.ocir.io/${P_TENANCY_NAMESPACE}/${P_OCIR_REPO_NAME_PHP_ADB}:${BUILDRUN_HASH}
+    onFailure:
+      - type: Command
+        command: |
+          echo "Failed to push images $BUILDRUN_HASH to OCIR"
+        timeoutInSeconds: 400
+        runAs: root

@@ -1,0 +1,10 @@
+# Ignore all secrets
+.vscode*
+secret*
+*_backup
+.vscode
+*local*
+*private*
+.DS*
+
+
