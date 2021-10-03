@@ -139,7 +139,7 @@ $ kubectl apply -f <adb-secret-name>.yml -n <k8s-namespace>
 |                          |               |               |       |
 |                          |               |               |       |
 
-### 6. Create Vault, Master Encryption Key, Secret For \<oci-auth-token>
+### 6. Create Vault, Master Encryption Key, Secret For OCI Auth Token
 
 ```
 Vault Secret OCID (oci-auth-token): <vault-secret-ocid>
@@ -226,7 +226,8 @@ i. create deployment pipeline
 ii. add stage-> (select Apply manifest to K8s cluster)
 iii. select artifact
 ii. add parameter from above table
-iii. start a manual run and check 
+iii. start a manual run and check
+iv: Test URL: http://lb_ip:5000/index.php
 ```
 
 #### h) Update Build Pipeline | Add Stage, Trigger Deployment
