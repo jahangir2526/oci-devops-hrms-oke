@@ -27,7 +27,7 @@ steps:
   - type: Command
     name: "Build Docker image for php"
     command: |
-      docker build -t ${P_OCIR_REGION_KEY}.ocir.io/${P_TENANCY_NAMESPACE}/${P_OCIR_REPO_NAME_NGINX}:${BUILDRUN_HASH} php-adb/.
+      docker build -t ${P_OCIR_REGION_KEY}.ocir.io/${P_TENANCY_NAMESPACE}/${P_OCIR_REPO_NAME_PHP_ADB}:${BUILDRUN_HASH} php-adb/.
       echo "Run PHP"
     onFailure:
       - type: Command
