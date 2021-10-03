@@ -2,9 +2,9 @@
 .vscode*
 secret*
 *_backup
-.vscode
 *local*
 *private*
 .DS*
+*archive*
 
 
