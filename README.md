@@ -230,7 +230,7 @@ iii. start a manual run and check
 iv: Test URL: http://lb_ip:5000/index.php
 ```
 
-#### h) Update Build Pipeline | Add Stage, Trigger Deployment
+#### h) Update Build Pipeline | Add Stage | Trigger Deployment
 
 ```
 Steps here
@@ -253,8 +253,8 @@ Steps here
 ## Author
 
 [S M Jahangir Alam@Linkedin](https://www.linkedin.com/in/jahangir2526/)
-Special Thanks to "Howie Owi" [@github](https://github.com/howowi)
 
+Special Thanks to [**Howie Owi**@github](https://github.com/howowi)
 
 
 

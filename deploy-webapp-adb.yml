@@ -29,7 +29,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 5000
+  - port: 80
   selector:
     app: nginx
     tier: web
@@ -105,7 +105,7 @@ spec:
       - name: nginx
         image: ${P_OCIR_REGION_KEY}.ocir.io/${P_TENANCY_NAMESPACE}/${P_OCIR_REPO_NAME_NGINX}:${BUILDRUN_HASH}
         ports:
-        - containerPort: 5000
+        - containerPort: 80
       imagePullSecrets:
       - name: ${P_IMAGE_PULL_SECRET}
 ---
